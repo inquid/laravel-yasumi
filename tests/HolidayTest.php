@@ -114,4 +114,29 @@ class HolidayTest extends TestCase
         $newYear = Carbon::make($date)->subDay();
         $this->assertTrue($holiday->isDayBeforeHoliday($newYear));
     }
+    
+    /**
+     * @throws ReflectionException
+     * @throws MissingTranslationException
+     */
+    public function testCountry()
+    {
+        $config = new Repository([
+            'yasumi' => [
+                'country' => 'Japan',
+                'locale'  => 'ja_JP',
+            ],
+        ]);
+        $spainConstitutionDay = Carbon::make('2020-12-06');
+        $holiday = (new Holiday($config))->country('Spain')->locale('es');
+        $this->assertEquals('Día de la Constitución', $holiday->get($spainConstitutionDay));
+        
+        $usaIndependenceDay = Carbon::make('2020-07-04');
+        $holiday = (new Holiday($config))->country('USA')->locale('en_US');
+        $this->assertEquals('Independence Day', $holiday->get($usaIndependenceDay));
+        
+        $holiday = new Holiday($config);
+        $newYear = Carbon::make('2020-01-01');
+        $this->assertEquals('元日', $holiday->get($newYear));
+    }
 }

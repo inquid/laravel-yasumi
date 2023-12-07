@@ -39,6 +39,27 @@ class Holiday
         $this->country = $config->get('yasumi.country');
         $this->locale = $config->get('yasumi.locale');
     }
+    
+    /**
+     * @param string $country
+     * @return Holiday
+     */
+    public function country($country)
+    {
+        $this->country = $country;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $locale
+     * @return Holiday
+     */
+    public function locale($locale){
+        $this->locale = $locale;
+        
+        return $this;
+    }
 
     /**
      * @param Carbon $carbon
